@@ -5,6 +5,7 @@ import './globals.css';
 import ThemeProvider from '@/components/ThemeProvider/ThemeProvider';
 import { NextAuthProvider } from '@/components/AuthProvider/AuthProvider';
 import Toast from '@/components/Toast/Toast';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -25,23 +26,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <head>
-        <link
-          rel='stylesheet'
-          href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css'
-          crossOrigin='anonymous'
-        />
-      </head>
-      <body className={poppins.className}>
-        <NextAuthProvider>
-          <ThemeProvider>
-            <Toast />
-            <main className='font-normal'>
-              {children}
-            </main>
-          </ThemeProvider>
-        </NextAuthProvider>
-      </body>
+      <AntdRegistry>
+        <head>
+          <link
+            rel='stylesheet'
+            href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css'
+            crossOrigin='anonymous'
+          />
+        </head>
+        <body className={poppins.className}>
+          <NextAuthProvider>
+            <ThemeProvider>
+              <Toast />
+              <main className='font-normal h-full w-full'>
+                {children}
+              </main>
+            </ThemeProvider>
+          </NextAuthProvider>
+        </body>
+      </AntdRegistry>
     </html>
   );
 }

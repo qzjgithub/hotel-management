@@ -4,19 +4,25 @@ import * as bcrypt from 'bcrypt';
 
 export async function POST(request: Request) {
   try {
-    const {name, password} = await request.json();
-    if (!name || !password) {
-      throw new Error('name or password is null');
+    const {email, password} = await request.json();
+    if (!email || !password) {
+      throw new Error('邮箱或密码不能为空');
     }
-    const hasUser = await db.user.findFirst({where: {name}});
+    const hasUser = await db.user.findFirst({where: {email}});
     if (hasUser) {
-      throw new Error('name has exist');
+      throw new Error('该邮箱已被注册');
     }
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
-    const user = await db.user.create({data: {name, password: hashed}});
-    return NextResponse.json(user);
-  } catch(e) {
-    return NextResponse.json(e);
+    const user = await db.user.create({data: {name: email, email, password: hashed}});
+    return NextResponse.json({
+      success: true,
+      data: user
+    });
+  } catch(e: any) {
+    return NextResponse.json({
+      success: false,
+      message: e?.message
+    });
   }
 }

@@ -2,11 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
-import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { Button, Form, Input, message } from 'antd';
 
-const Auth = () => {
+const SignInPage = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [form] = Form.useForm();
@@ -21,7 +20,6 @@ const Auth = () => {
   const isMobile = useMemo(() => currentMode === 'phone', [currentMode]);
 
   useEffect(() => {
-    console.log(session);
     if (session?.user?.name) router.push('/');
   }, [router, session]);
 
@@ -30,38 +28,25 @@ const Auth = () => {
     form.resetFields(['email', 'phone']);
   }, [form]);
 
-  const loginHandler = async () => {
-    try {
-      await signIn();
-      router.push('/');
-    } catch (error) {
-      console.log(error);
-      toast.error("Something wen't wrong");
-    }
+  const registerHandler = async () => {
+    router.push('/auth');
   };
 
   const confirmForm = useCallback(async() => {
     try {
       setLoading(true);
       const res = await form.validateFields();
+      console.log(res);
       const subData = {
         password: res.password,
         ...(isMobile ? { phone: res.phone } : { email: res.email })
       };
-      const result = await fetch('/api/auth/signup', {
-        method: 'POST',
-        body: JSON.stringify(subData)
+      const result = await signIn('credentials', {
+        ...subData,
+        redirect: false
       });
-      const user = await result.json();
-      if (user?.success) {
-        messageApi.success('注册成功，正在自动登录');
-        await signIn('credentials', {
-          ...subData,
-          redirect: true,
-          claabackUrl: '/'
-        });
-      } else {
-        messageApi.error(user?.message);
+      if (!result?.ok) {
+        messageApi.error(result?.error || '登录失败');
       }
     } catch {
       // do nothing
@@ -79,7 +64,7 @@ const Auth = () => {
         <div className='p-6 space-y-4 md:space-y-6 sm:p-8 w-80 md:w-[70%] mx-auto'>
           <div className='flex mb-8 flex-col md:flex-row items-center justify-center'>
             <h1 className='text-xl font-bold leading-tight tracking-tight md:text-2xl'>
-              注册账户
+              登录
             </h1>
           </div>
           <Form
@@ -140,7 +125,7 @@ const Auth = () => {
                 onClick={confirmForm}
                 loading={loading}
               >
-                注册
+                登录
               </Button>
             </Form.Item>
             <Form.Item
@@ -148,9 +133,9 @@ const Auth = () => {
             >
               <Button
                 type='link'
-                onClick={loginHandler}
+                onClick={registerHandler}
               >
-                已有账户，立即登录
+                没有账号，前往注册
               </Button>
             </Form.Item>
             {/* <Form.Item
@@ -160,7 +145,7 @@ const Auth = () => {
                 type='text'
                 onClick={switchMode}
               >
-                使用{isMobile ? '邮箱' : '手机号'}注册
+                使用{isMobile ? '邮箱' : '手机号'}登录
               </Button>
             </Form.Item> */}
           </Form>
@@ -170,4 +155,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default SignInPage;
