@@ -6,9 +6,6 @@ import * as bcrypt from 'bcrypt';
 import { db } from "@/libs/db";
 
 export const authOptions: NextAuthOptions = {
-  pages: {
-    signIn: '/auth/signin'
-  },
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -41,8 +38,7 @@ export const authOptions: NextAuthOptions = {
       strategy: "jwt",
   },
   callbacks: {
-    session: async ({ session, token }: { session: Session; token: JWT })
-    : Promise<Session> => {
+    session: async ({ session, token }: { session: Session; token: JWT }) => {
       if (token.name) {
         const user = await db.user.findFirst({where: {name: token.name}});
         if (user) {
@@ -52,7 +48,7 @@ export const authOptions: NextAuthOptions = {
       }
       return {...session, user: {}};
     },
-    async signIn({ user, credentials }) {
+    async signIn() {
       // console.log(user, credentials);
       return true;
     }

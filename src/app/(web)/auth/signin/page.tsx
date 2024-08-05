@@ -1,154 +1,111 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Button, Form, Input, message } from 'antd';
+import toast from 'react-hot-toast';
+
+const defaultFormData = {
+  email: '',
+  name: '',
+  password: '',
+};
 
 const SignInPage = () => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const [formData, setFormData] = useState(defaultFormData);
 
-  const [form] = Form.useForm();
+  const inputStyles =
+    'border border-gray-300 sm:text-sm text-black rounded-lg block w-full p-2.5 focus:outline-none';
 
-  const [currentMode, setCurrentMode] = useState('email');
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const [loading, setLoading] = useState(false);
 
   const { data: session } = useSession();
   const router = useRouter();
 
-  const isMobile = useMemo(() => currentMode === 'phone', [currentMode]);
-
   useEffect(() => {
     if (session?.user?.name) router.push('/');
   }, [router, session]);
 
-  const switchMode = useCallback(() => {
-    setCurrentMode((prev) => (prev === 'email' ? 'phone' : 'email'));
-    form.resetFields(['email', 'phone']);
-  }, [form]);
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const registerHandler = async () => {
-    router.push('/auth');
-  };
-
-  const confirmForm = useCallback(async() => {
     try {
-      setLoading(true);
-      const res = await form.validateFields();
-      console.log(res);
-      const subData = {
-        password: res.password,
-        ...(isMobile ? { phone: res.phone } : { email: res.email })
-      };
-      const result = await signIn('credentials', {
-        ...subData,
-        redirect: false
+      const result = await fetch('/api/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify(formData)
       });
-      if (!result?.ok) {
-        messageApi.error(result?.error || '登录失败');
+      const user = await result.json();
+      if (user?.success) {
+        toast.success('Success. Will auto login');
+        await signIn('credentials', {
+          ...formData,
+          redirect: true,
+          callbackUrl: '/'
+        });
+      } else {
+        toast.error(user?.message || 'Something wen\'t wrong');
       }
-    } catch {
-      // do nothing
+    } catch (error) {
+      console.log(error);
+      toast.error("Something wen't wrong");
     } finally {
-      setLoading(false);
+      setFormData(defaultFormData);
     }
-  }, [form, isMobile, messageApi]);
+  };
 
   return (
     <section
       className='h-full w-full flex items-center justify-center'
     >
-      {contextHolder}
       <div className='container'>
         <div className='p-6 space-y-4 md:space-y-6 sm:p-8 w-80 md:w-[70%] mx-auto'>
           <div className='flex mb-8 flex-col md:flex-row items-center justify-center'>
             <h1 className='text-xl font-bold leading-tight tracking-tight md:text-2xl'>
-              登录
+              Log In
             </h1>
           </div>
-          <Form
-            layout='vertical'
-            form={form}
-          >
-            {
-              isMobile ? (
-                <Form.Item
-                  label='手机号'
-                  name='phone'
-                  rules={[
-                    {required: true, pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号'}
-                  ]}
-                >
-                  <Input
-                    placeholder='请输入手机号'
-                    size='large'
-                    autoComplete='off'
-                    addonBefore='+86'
-                  />
-                </Form.Item>
-              ) : (
-                <Form.Item
-                  label='邮箱'
-                  name='email'
-                  rules={[
-                    {required: true, pattern: /^\w+([-+.]\w+)*@(vip.qq|qq|gmail|163|126|sina|sohu|hotmail)\.com$/, message: '请输入正确的邮箱格式'}
-                  ]}
-                >
-                  <Input
-                    type='email'
-                    placeholder='请输入邮箱'
-                    size='large'
-                    autoComplete='off'
-                  />
-                </Form.Item>
-              )
-            }
-            <Form.Item
-              label='密码'
+          <form className='space-y-4 md:space-y-6' onSubmit={handleSubmit}>
+            <input
+              type='email'
+              name='email'
+              placeholder='name@company.com'
+              required
+              className={inputStyles}
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+            <input
+              type='text'
+              name='name'
+              placeholder='John Doe'
+              required
+              className={inputStyles}
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+            <input
+              type='password'
               name='password'
-              rules={[{ required: true, message: '请输入密码', whitespace: true }]}
+              placeholder='password'
+              required
+              minLength={6}
+              className={inputStyles}
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+
+            <button
+              type='submit'
+              className='w-full bg-tertiary-dark focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center'
             >
-              <Input.Password
-                type='email'
-                placeholder='请输入密码'
-                size='large'
-                autoComplete='off'
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type='primary'
-                block
-                size='large'
-                className='bg-tertiary-dark'
-                onClick={confirmForm}
-                loading={loading}
-              >
-                登录
-              </Button>
-            </Form.Item>
-            <Form.Item
-              className='text-right'
-            >
-              <Button
-                type='link'
-                onClick={registerHandler}
-              >
-                没有账号，前往注册
-              </Button>
-            </Form.Item>
-            {/* <Form.Item
-              className='text-center'
-            >
-              <Button
-                type='text'
-                onClick={switchMode}
-              >
-                使用{isMobile ? '邮箱' : '手机号'}登录
-              </Button>
-            </Form.Item> */}
-          </Form>
+              Sign Up
+            </button>
+          </form>
         </div>
       </div>
     </section>

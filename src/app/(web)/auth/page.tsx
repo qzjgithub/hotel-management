@@ -1,34 +1,36 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { Button, Form, Input, message } from 'antd';
+
+const defaultFormData = {
+  email: '',
+  name: '',
+  password: '',
+};
 
 const Auth = () => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const [formData, setFormData] = useState(defaultFormData);
 
-  const [form] = Form.useForm();
+  const inputStyles =
+    'border border-gray-300 sm:text-sm text-black rounded-lg block w-full p-2.5 focus:outline-none';
 
-  const [currentMode, setCurrentMode] = useState('email');
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const [loading, setLoading] = useState(false);
 
   const { data: session } = useSession();
   const router = useRouter();
 
-  const isMobile = useMemo(() => currentMode === 'phone', [currentMode]);
-
   useEffect(() => {
-    console.log(session);
+    setFormData(defaultFormData);
     if (session?.user?.name) router.push('/');
   }, [router, session]);
-
-  const switchMode = useCallback(() => {
-    setCurrentMode((prev) => (prev === 'email' ? 'phone' : 'email'));
-    form.resetFields(['email', 'phone']);
-  }, [form]);
 
   const loginHandler = async () => {
     try {
@@ -40,130 +42,95 @@ const Auth = () => {
     }
   };
 
-  const confirmForm = useCallback(async() => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       setLoading(true);
-      const res = await form.validateFields();
-      const subData = {
-        password: res.password,
-        ...(isMobile ? { phone: res.phone } : { email: res.email })
-      };
       const result = await fetch('/api/auth/signup', {
         method: 'POST',
-        body: JSON.stringify(subData)
+        body: JSON.stringify(formData)
       });
       const user = await result.json();
       if (user?.success) {
-        messageApi.success('注册成功，正在自动登录');
+        toast.success('Success. Will auto login');
         await signIn('credentials', {
-          ...subData,
+          ...formData,
           redirect: true,
-          claabackUrl: '/'
+          callbackUrl: '/'
         });
       } else {
-        messageApi.error(user?.message);
+        toast.error(user?.message || 'Something wen\'t wrong');
       }
-    } catch {
-      // do nothing
+    } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }
-  }, [form, isMobile, messageApi]);
+  };
 
   return (
     <section
-      className='h-full w-full flex items-center justify-center'
+      className='flex-1 w-full flex justify-center'
     >
-      {contextHolder}
       <div className='container'>
         <div className='p-6 space-y-4 md:space-y-6 sm:p-8 w-80 md:w-[70%] mx-auto'>
           <div className='flex mb-8 flex-col md:flex-row items-center justify-center'>
             <h1 className='text-xl font-bold leading-tight tracking-tight md:text-2xl'>
-              注册账户
+              Create an account
             </h1>
           </div>
-          <Form
-            layout='vertical'
-            form={form}
-          >
-            {
-              isMobile ? (
-                <Form.Item
-                  label='手机号'
-                  name='phone'
-                  rules={[
-                    {required: true, pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号'}
-                  ]}
-                >
-                  <Input
-                    placeholder='请输入手机号'
-                    size='large'
-                    autoComplete='off'
-                    addonBefore='+86'
-                  />
-                </Form.Item>
-              ) : (
-                <Form.Item
-                  label='邮箱'
-                  name='email'
-                  rules={[
-                    {required: true, pattern: /^\w+([-+.]\w+)*@(vip.qq|qq|gmail|163|126|sina|sohu|hotmail)\.com$/, message: '请输入正确的邮箱格式'}
-                  ]}
-                >
-                  <Input
-                    type='email'
-                    placeholder='请输入邮箱'
-                    size='large'
-                    autoComplete='off'
-                  />
-                </Form.Item>
-              )
-            }
-            <Form.Item
-              label='密码'
+          <form className='space-y-4 md:space-y-6' onSubmit={handleSubmit}>
+            <input
+              type='email'
+              name='email'
+              placeholder='name@company.com'
+              required
+              className={inputStyles}
+              value={formData.email}
+              onChange={handleInputChange}
+              autoComplete='off'
+            />
+            <input
+              type='text'
+              name='name'
+              placeholder='John Doe'
+              required
+              className={inputStyles}
+              value={formData.name}
+              onChange={handleInputChange}
+              autoComplete='off'
+            />
+            <input
+              type='password'
               name='password'
-              rules={[{ required: true, message: '请输入密码', whitespace: true }]}
+              placeholder='password'
+              required
+              minLength={6}
+              className={inputStyles}
+              value={formData.password}
+              onChange={handleInputChange}
+              autoComplete='off'
+            />
+
+            <button
+              type='submit'
+              className='flex justify-center w-full bg-tertiary-dark focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+              disabled={loading}
             >
-              <Input.Password
-                type='email'
-                placeholder='请输入密码'
-                size='large'
-                autoComplete='off'
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type='primary'
-                block
-                size='large'
-                className='bg-tertiary-dark'
-                onClick={confirmForm}
-                loading={loading}
-              >
-                注册
-              </Button>
-            </Form.Item>
-            <Form.Item
-              className='text-right'
-            >
-              <Button
-                type='link'
-                onClick={loginHandler}
-              >
-                已有账户，立即登录
-              </Button>
-            </Form.Item>
-            {/* <Form.Item
-              className='text-center'
-            >
-              <Button
-                type='text'
-                onClick={switchMode}
-              >
-                使用{isMobile ? '邮箱' : '手机号'}注册
-              </Button>
-            </Form.Item> */}
-          </Form>
+              {
+                loading ? (
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : null
+              }
+              Sign Up
+            </button>
+          </form>
+          <button onClick={loginHandler} className='text-blue-700 underline'>
+            login
+          </button>
         </div>
       </div>
     </section>

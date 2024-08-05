@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from 'antd';
 import { signOut } from "next-auth/react";
 import toast from 'react-hot-toast';
 
@@ -9,7 +8,6 @@ const SignOut = () => {
     try {
       await signOut();
     } catch (error) {
-      console.log(error);
       toast.error("Something wen't wrong");
     }
   };
@@ -17,14 +15,13 @@ const SignOut = () => {
   return (
     <div className='w-full h-full flex flex-col gap-4 items-center p-4'>
       <div>
-        登录成功
+        You are logged in
       </div>
-      <Button
+      <button
         onClick={() => logoutHandler()}
-        type='primary'
       >
-        登出
-      </Button>
+        log out
+      </button>
     </div>
   )
 }
