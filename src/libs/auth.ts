@@ -6,6 +6,9 @@ import * as bcrypt from 'bcrypt';
 import { db } from "@/libs/db";
 
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: '/auth/signin'
+  },
   providers: [
     CredentialsProvider({
       name: 'credentials',
@@ -17,15 +20,15 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('邮箱或密码不正确');
+          throw new Error('Email or password cannot be empty');
         }
         const user = await db.user.findFirst({where: {email: credentials?.email}});
         if (!user) {
-          throw new Error('邮箱不存在或者密码不正确');
+          throw new Error('Email or password is incorrect');
         }
         const validPassword = await bcrypt.compare(credentials?.password, user.password);
         if (!validPassword) {
-          throw new Error('邮箱不存在或者密码不正确');
+          throw new Error('Email or password is incorrect');
         }
         return user;
       }
