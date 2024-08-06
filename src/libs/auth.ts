@@ -43,10 +43,19 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, token }: { session: Session; token: JWT }) => {
       if (token.name) {
-        const user = await db.user.findFirst({where: {name: token.name}});
+        const user = await db.user.findFirst({
+          where: {name: token.name},
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            about: true,
+            isAdmin: true
+          }
+        });
         if (user) {
-          const {password, ...rest} = user;
-          return {...session, user: {...session.user, ...rest}};
+          return {...session, user: {...session.user, ...user}};
         }
       }
       return {...session, user: {}};

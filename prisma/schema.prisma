@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["darwin", "windows", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -26,9 +27,15 @@ model User {
   /// Email
   email String?
 
-  emailVerified DateTime?
+  emailVerified DateTime? @map("email_verified")
   /// About
   about String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deletedAt DateTime? @map("deleted_at")
 
   @@map("user")
 }
