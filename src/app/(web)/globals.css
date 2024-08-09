@@ -9,7 +9,17 @@
 html, body {
   height: 100%;
   width: 100%;
+  background-color: #f9f4e3;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: relative;
+  background: transparent;
+}
+
+/* input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  color: transparent;
+} */
 
 .img {
   @apply object-cover w-full h-full;

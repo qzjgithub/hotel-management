@@ -41,10 +41,10 @@ export const authOptions: NextAuthOptions = {
       strategy: "jwt",
   },
   callbacks: {
-    session: async ({ session, token }: { session: Session; token: JWT }) => {
-      if (token.name) {
-        const user = await db.user.findFirst({
-          where: {name: token.name},
+    jwt: async ({token, user}) => {
+      if (token.email) {
+        const u = await db.user.findFirst({
+          where: {email: token.email},
           select: {
             id: true,
             name: true,
@@ -54,14 +54,19 @@ export const authOptions: NextAuthOptions = {
             isAdmin: true
           }
         });
-        if (user) {
-          return {...session, user: {...session.user, ...user}};
+        if (u) {
+          return {...token, picture: u.image, isAdmin: u.isAdmin};
         }
+      }
+      return token;
+    },
+    session: async ({ session, token }: { session: Session; token: JWT }) => {
+      if (token.email) {
+        return {...session, user: {...session.user, ...token}};
       }
       return {...session, user: {}};
     },
     async signIn() {
-      // console.log(user, credentials);
       return true;
     }
   },
