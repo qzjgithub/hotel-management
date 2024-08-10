@@ -40,7 +40,9 @@ export default function RootLayout({
             <Toast />
             <main className='font-normal h-full w-full flex flex-col'>
               <Header />
-              {children}
+              <div className='min-h-96'>
+                {children}
+              </div>
               <Footer />
             </main>
           </ThemeProvider>

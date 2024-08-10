@@ -19,7 +19,6 @@ const UserDetail = (props: {params: {id: string}}) => {
       setLoading(true);
       const result = await fetch('/api/users');
       const data = await result.json();
-      console.log(data);
       setUserData(data);
     } catch {
       // do nothing

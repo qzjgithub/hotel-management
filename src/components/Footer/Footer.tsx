@@ -14,7 +14,7 @@ const Footer = () => {
         {/* <h4 className='font-semibold text-[40px] py-6'>Contact</h4> */}
 
         {/* <div className='flex flex-wrap gap-16 items-center justify-between'>
-          <div className='flex-1'>
+          <div>
             <p>123 Road</p>
             <div className='flex items-center py-4'>
               <BsFillSendFill />
@@ -49,12 +49,12 @@ const Footer = () => {
       </div>
 
       <div className='bg-[#f6d77e] h-10 md:h-[70px] mt-2 w-full bottom-0 left-0 flex flex-col justify-center'>
-        <div className='container mx-auto px-4 flex'>
-          <p className='flex-1'>Copyright</p>
-          <p className='flex-1'>Terms and Conditions</p>
-          <p className='flex-1'>Privacy Policy</p>
-          <p className='flex-1'>Cookies</p>
-          <p className='flex-1'>Complaints</p>
+        <div className='container mx-auto px-4 flex justify-between'>
+          <p>Copyright</p>
+          <p>Terms and Conditions</p>
+          <p>Privacy Policy</p>
+          <p>Cookies</p>
+          <p>Complaints</p>
         </div>
       </div>
     </footer>

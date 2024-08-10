@@ -9,6 +9,7 @@ import { HeroInput } from './HeroInput';
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import { CiSearch } from "react-icons/ci";
+import { useRouter } from 'next/navigation';
 
 dayjs.extend(advancedFormat);
 
@@ -19,10 +20,13 @@ type Props = {
 
 const ClientComponent: FC<Props> = props => {
   const { heading1, section2 } = props;
-  const [searchParam, setSearchParam] = useState<{place: string | null, date: Date | null}>({
+  const [searchParam, setSearchParam] = useState<{place: string | null, checkinDate: Date | null}>({
     place: '',
-    date: new Date()
-  })
+    checkinDate: new Date()
+  });
+
+  
+  const router = useRouter();
 
   return (
     <section className='flex px-4 items-center gap-12 container mx-auto'>
@@ -47,9 +51,9 @@ const ClientComponent: FC<Props> = props => {
             icon={<MdOutlineDateRange />}
             element={
               <DatePicker
-                selected={searchParam.date}
+                selected={searchParam.checkinDate}
                 dateFormat='do,MMM,YYYY'
-                onChange={(d: Date | null) => setSearchParam({...searchParam, date: d})}
+                onChange={(d: Date | null) => setSearchParam({...searchParam, checkinDate: d})}
                 minDate={new Date()}
                 id='check-in-date'
                 className='w-36'
@@ -59,7 +63,7 @@ const ClientComponent: FC<Props> = props => {
           <div className='flex items-center ml-8'>
             <button
               className='h-10 w-10 rounded-full bg-[#e2794d] text-white flex justify-center items-center'
-              onClick={() => console.log(searchParam)}
+              onClick={() => router.push(`/rooms?place=${searchParam.place}&checkinDate=${searchParam.checkinDate?.toISOString()}`)}
             >
               <CiSearch className='text-xl' />
             </button>

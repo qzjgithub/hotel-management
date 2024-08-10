@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';

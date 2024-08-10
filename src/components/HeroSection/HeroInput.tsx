@@ -1,3 +1,5 @@
+'use client'
+
 import React, { cloneElement, JSXElementConstructor, useState } from 'react';
 
 type HeroInput = {
@@ -21,7 +23,7 @@ export const HeroInput = (props: HeroInput) => {
           className: `
           text-[#a5a7b1] focus:b-0 focus:outline-none ease-in duration-200
           ${focused ? 'text-lg' : 'text-sm'}
-          ${element.props.className}`,
+          ${element.props.className || ''}`,
           onFocus: () => setFocused(true),
           onBlur: () => setFocused(false)
         })}

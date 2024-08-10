@@ -1,13 +1,13 @@
 import { db } from "@/libs/db";
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: Request, { params }: { params: { slug: string } }) {
   try {
-    const param = await request.json();
-    const rooms = await db.hotelRoom.findMany({where: param});
+    const slug = params.slug;
+    const room = await db.hotelRoom.findFirst({where: { slug }});
     return NextResponse.json({
       success: true,
-      data: rooms
+      data: room
     });
   } catch(e: any) {
     return NextResponse.json({
