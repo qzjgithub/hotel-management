@@ -1,4 +1,4 @@
-import { IsString, IsDefined, IsOptional, IsEmail, MinLength, MaxLength } from "class-validator";
+import { IsString, IsDefined, IsOptional, IsEmail, MinLength, MaxLength, IsNumber } from "class-validator";
 import { User } from "@/dto/models";
 import { Expose } from "class-transformer";
 
@@ -17,9 +17,12 @@ export class SignupDto implements Pick<User, 'email' | 'name' | 'password'> {
   @Expose()
   password!: string;
 
-  @IsOptional()
   @IsString()
   @IsEmail({}, {message: 'The email format is incorrect'})
   @Expose()
-  email?: string;
+  email!: string;
+
+  @IsDefined()
+  @IsNumber()
+  code!: number;
 }

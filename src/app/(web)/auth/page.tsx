@@ -4,11 +4,13 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import CaptchaCode from '@/components/CaptchaCode';
 
 const defaultFormData = {
   email: '',
   name: '',
   password: '',
+  code: ''
 };
 
 const Auth = () => {
@@ -48,16 +50,20 @@ const Auth = () => {
       setLoading(true);
       const result = await fetch('/api/auth/signup', {
         method: 'POST',
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          code: Number(formData.code)
+        })
       });
       const user = await result.json();
       if (user?.success) {
         toast.success('Success. Will auto login');
-        await signIn('credentials', {
+        const res = await signIn('credentials', {
           ...formData,
-          redirect: true,
-          callbackUrl: '/'
+          code: user.loginCode,
+          redirect: false
         });
+        console.log(res);
       } else {
         toast.error(user?.message || 'Something wen\'t wrong');
       }
@@ -111,7 +117,12 @@ const Auth = () => {
               onChange={handleInputChange}
               autoComplete='off'
             />
-
+            <CaptchaCode
+              value={formData.code}
+              onChange={handleInputChange}
+              email={formData.email}
+              purpose='signup'
+            />
             <button
               type='submit'
               className='flex justify-center w-full bg-tertiary-dark focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center'
