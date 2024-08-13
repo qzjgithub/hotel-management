@@ -42,9 +42,11 @@ model User {
 
   deletedAt DateTime? @map("deleted_at")
 
-  reviews Review[]
+  hotelReviews HotelReview[]
+  sightsReviews SightsReview[]
 
-  bookings Booking[]
+  hotelBookings HotelBooking[]
+  sightsBookings SightsBooking[]
 
   @@map("user")
 }
@@ -93,9 +95,9 @@ model HotelRoom {
   /// Is Featured
   isFeatured Boolean @map("is_featured") @default(false)
   /// Reviews
-  reviews Review[]
+  reviews HotelReview[]
 
-  bookings Booking[]
+  bookings HotelBooking[]
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -106,7 +108,7 @@ model HotelRoom {
   @@map("hotel_room")
 }
 
-model Review {
+model HotelReview {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   /// Review Text
   text String
@@ -125,10 +127,10 @@ model Review {
 
   deletedAt DateTime? @map("deleted_at")
 
-  @@map("review")
+  @@map("hotel_review")
 }
 
-model Booking {
+model HotelBooking {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   /// Check-in Date
   checkinDate DateTime @map("checkin_date")
@@ -158,5 +160,106 @@ model Booking {
   deletedAt DateTime? @map("deleted_at")
 
   @@map("booking")
+}
 
+
+type TimeSlot {
+  /// Start Time
+  startTime String
+  /// End Time
+  endTime String
+}
+
+model Sights {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Name
+  name String
+  /// Slug
+  slug String @unique
+  /// Place
+  place String
+  /// Description
+  description String?
+  /// Duration
+  duration Int
+  /// Price
+  price Float
+  /// Child Price
+  childPrice Float?
+  /// Discount
+  discount Float?
+  /// Images
+  images String[]
+  /// Cover Image
+  coverImage String @map("cover_image")
+  /// Ticket Notice
+  ticketNotice String @map("ticket_notice")
+  /// Special Note
+  specialNote String @map("special_note")
+  /// Subtopics
+  subtopics String[]
+  /// Time slot
+  timeSlots TimeSlot[]
+  /// Reviews
+  reviews SightsReview[]
+
+  bookings SightsBooking[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deletedAt DateTime? @map("deleted_at")
+  @@map("sights")
+}
+
+model SightsReview {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Review Text
+  text String
+  /// User Rating
+  userRating Int @map("user_rating")
+
+  userId String @map("user_id") @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+
+  sightsId String @map("sights_id") @db.ObjectId
+  sights Sights @relation(fields: [sightsId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("sights_review")
+}
+
+
+model SightsBooking {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  /// Time slot
+  timeSlot TimeSlot
+  /// Discout
+  discount Float
+  /// Adults
+  adults Int
+  /// Children
+  children Int
+  /// Total Price
+  totalPrice Float @map("total_price")
+
+  userId String @map("user_id") @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+
+  sightsId String @map("sights_id") @db.ObjectId
+  sights Sights @relation(fields: [sightsId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("sights_booking")
 }

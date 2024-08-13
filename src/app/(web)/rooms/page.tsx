@@ -30,7 +30,7 @@ const RoomMainPage = () => {
         checkinDate={checkinDate ? (new Date(checkinDate)) : null}
         onSearch={fetchRoomsData}
       />
-      <div className='text-center m-4'>
+      <div className='flex mt-20 justify-between flex-wrap'>
         {rooms.map((room: Room) => (
           <RoomCard key={room.id} room={room} />
         ))}

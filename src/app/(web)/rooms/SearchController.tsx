@@ -33,7 +33,7 @@ export const SearchController = ({place, checkinDate, onSearch}: SearchControlle
   }, [place, checkinDate]);
 
   return (
-    <div className="flex justify-between bg-white rounded-xl px-6 py-4 items-end">
+    <div className="flex justify-between bg-white rounded-xl px-6 py-4 items-end flex-wrap">
       <SearchInput
         label="WHERE"
         icon={null}
