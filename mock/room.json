@@ -17,7 +17,7 @@
     "numberOfBeds": 2,
     "isFeatured": true,
     "name": "Deluxe Suite",
-    "place": "",
+    "place": "Center Point",
     "offeredAmenities": [
       {
         "amenity": "King-sized bed",

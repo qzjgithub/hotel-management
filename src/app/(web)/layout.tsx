@@ -38,7 +38,7 @@ export default function RootLayout({
         <NextAuthProvider>
           <ThemeProvider>
             <Toast />
-            <main className='font-normal h-full w-full flex flex-col'>
+            <main className='font-normal w-full flex flex-col'>
               <Header />
               <div className='min-h-96'>
                 {children}

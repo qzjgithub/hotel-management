@@ -4,6 +4,8 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useState } from "react"
 import { useSearchParams } from 'next/navigation';
 import { SearchController, SearchParamType } from './SearchController';
+import RoomCard from '@/components/RoomCard/RoomCard';
+import { Room } from '@/models/room';
 
 const RoomMainPage = () => {
   const queryParams = useSearchParams();
@@ -29,7 +31,9 @@ const RoomMainPage = () => {
         onSearch={fetchRoomsData}
       />
       <div className='text-center m-4'>
-        酒店列表页面
+        {rooms.map((room: Room) => (
+          <RoomCard key={room.id} room={room} />
+        ))}
       </div>
     </div>
   )

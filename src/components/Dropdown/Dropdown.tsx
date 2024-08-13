@@ -28,7 +28,7 @@ export const Dropdown = (props: any) => {
       <ul className={`bg-white px-4 w-fit rounded-lg border ${downClassName}`}>
         {options.map((o: OptionType) => (
           <li
-            className="border-b last:border-b-0 text-nowrap py-2 hover:opacity-80"
+            className="border-b last:border-b-0 text-nowrap py-2 hover:opacity-80 text-sm"
             key={o.value}
             onClick={() => {
               setValue(o.value);
