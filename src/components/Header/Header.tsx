@@ -23,7 +23,7 @@ const Header = () => {
         <ul className='flex items-center ml-5'>
           <li className='flex items-center'>
             {session?.user ? (
-              <Link href={`/users/${session.user.id}`}>
+              <Link href='/user'>
                 <div className='w-10 h-10 rounded-full overflow-hidden'>
                     <Image
                       src={session.user.image || '/images/avatar.png'}
@@ -35,7 +35,7 @@ const Header = () => {
                   </div>
               </Link>
             ) : (
-              <Link href='/auth'>
+              <Link href='/auth/signin'>
                 <FaUserCircle className='cursor-pointer' />
               </Link>
             )}

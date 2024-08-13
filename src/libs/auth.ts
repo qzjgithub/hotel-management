@@ -4,6 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import * as bcrypt from 'bcrypt';
 import { db } from "@/libs/db";
+import { deleteTimer, verifyCode } from './email';
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -16,9 +17,13 @@ export const authOptions: NextAuthOptions = {
       type: 'credentials',
       credentials: {
         email: { label: "Email", type: "text", placeholder: "enter your email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
+        code: {label: 'Verification Code', type: 'text', placeholder: "Enter your verification code"}
       },
       async authorize(credentials, req) {
+        if (!credentials?.code) {
+          throw new Error('Verification Code cannot be empty');
+        }
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Email or password cannot be empty');
         }
@@ -30,7 +35,16 @@ export const authOptions: NextAuthOptions = {
         if (!validPassword) {
           throw new Error('Email or password is incorrect');
         }
-        return user;
+        if (credentials.email === process.env.NO_VERIFY_EMAIL) {
+          return user;
+        }
+        const codeFlag = verifyCode(credentials.email, Number(credentials.code));
+        if (codeFlag) {
+          deleteTimer(credentials.email);
+          return user;
+        } else {
+          throw new Error('Verification Code is incorrect');
+        }
       }
     })
   ],

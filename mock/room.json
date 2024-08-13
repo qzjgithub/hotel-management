@@ -34,5 +34,77 @@
     ],
     "slug": "deluxe-suite",
     "specialNote": "Check-in time is 12:00 PM, checkout time is 11:59 AM. If you leave behind any items, please contact the receptionist."
+  },
+  {
+    "coverImage": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHJvb218ZW58MHx8MHx8fDA%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+    "discount": 8,
+    "images": [
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1564078516393-cf04bd966897?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1486304873000-235643847519?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHJvb218ZW58MHx8MHx8fDA%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60"
+      
+    ],
+    "price": 100,
+    "type": "suite",
+    "description": "A spacious and luxurious suite with stunning views. Enjoy the comfort and elegance of this beautiful suite, complete with modern amenities and breathtaking vistas of the city skyline.",
+    "dimension": "600 sq ft",
+    "numberOfBeds": 2,
+    "isFeatured": true,
+    "name": "second",
+    "place": "",
+    "offeredAmenities": [
+      {
+        "amenity": "King-sized bed",
+        "icon": "fa-bed"
+      },
+      {
+        "icon": "fa-wifi",
+        "amenity": "Free Wi-Fi"
+      },
+      {
+        "amenity": "Coffee Maker",
+        "icon": "fa-coffee"
+      }
+    ],
+    "slug": "deluxe-suite-1",
+    "specialNote": "Check-in time is 12:00 PM, checkout time is 11:59 AM. If you leave behind any items, please contact the receptionist."
+  },
+  {
+    "coverImage": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHJvb218ZW58MHx8MHx8fDA%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+    "discount": 8,
+    "images": [
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1564078516393-cf04bd966897?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1486304873000-235643847519?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHJvb218ZW58MHx8MHx8fDA%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60"
+      
+    ],
+    "price": 100,
+    "type": "suite",
+    "description": "A spacious and luxurious suite with stunning views. Enjoy the comfort and elegance of this beautiful suite, complete with modern amenities and breathtaking vistas of the city skyline.",
+    "dimension": "600 sq ft",
+    "numberOfBeds": 2,
+    "isFeatured": true,
+    "name": "third",
+    "place": "",
+    "offeredAmenities": [
+      {
+        "amenity": "King-sized bed",
+        "icon": "fa-bed"
+      },
+      {
+        "icon": "fa-wifi",
+        "amenity": "Free Wi-Fi"
+      },
+      {
+        "amenity": "Coffee Maker",
+        "icon": "fa-coffee"
+      }
+    ],
+    "slug": "deluxe-suite-2",
+    "specialNote": "Check-in time is 12:00 PM, checkout time is 11:59 AM. If you leave behind any items, please contact the receptionist."
   }
 ]

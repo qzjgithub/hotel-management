@@ -5,11 +5,9 @@ import { FaSignOutAlt } from 'react-icons/fa';
 import { signOut } from 'next-auth/react';
 import RightPabel from './RightPanel';
 import { User } from '@/models/user';
-import LoadingSpinner from '../../loading';
+import LoadingSpinner from '../loading';
 
-const UserDetail = (props: {params: {id: string}}) => {
-  const {params: {id: userId}} = props;
-
+const UserDetail = () => {
   const [userData, setUserData] = useState<User>({} as User);
 
   const [loading, setLoading] = useState(true);
