@@ -17,7 +17,7 @@ export const HeroInput = (props: HeroInput) => {
   const [focused, setFocused] = useState(false);
   return (
     <div>
-      <p className={`font-bold ease-in duration-200 ${focused ? 'text-sm' : 'text-lg'}`}>{label}</p>
+      <p className={`font-bold ease-in duration-200 text-black ${focused ? 'text-sm' : 'text-lg'}`}>{label}</p>
       <div className='flex items-center relative'>
         {cloneElement(element, {
           className: `

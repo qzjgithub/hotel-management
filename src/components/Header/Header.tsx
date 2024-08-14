@@ -40,7 +40,7 @@ const Header = () => {
               </Link>
             )}
           </li>
-          {/* <li className='ml-2'>
+          <li className='ml-2'>
             {darkTheme ? (
               <MdOutlineLightMode
                 className='cursor-pointer'
@@ -58,7 +58,7 @@ const Header = () => {
                 }}
               />
             )}
-          </li> */}
+          </li>
         </ul>
       </div>
 

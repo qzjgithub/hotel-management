@@ -43,7 +43,7 @@ export const section2 = (
           className='h-fit object-contain'
         />
       </div>
-      <p className='text-xs text-center mt-2'>Love Travel!</p>
+      <p className='text-xs text-center mt-2 text-black'>Love Travel!</p>
       <ul className='flex justify-center mt-1'>
         <li>
           <Avatar url='/images/hero-2.jpeg' size={6} />
@@ -55,7 +55,7 @@ export const section2 = (
           <Avatar url='/images/hero-2.jpeg' size={6} />
         </li>
       </ul>
-      <div className='bg-white rounded-md absolute top-6 -right-3 flex text-[10px] py-1 px-2 align-middle leading-3'>
+      <div className='bg-white rounded-md absolute top-6 -right-3 flex text-[10px] py-1 px-2 align-middle leading-3 text-black'>
         <HiMapPin/>
         <span>India</span>
       </div>
