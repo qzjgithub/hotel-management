@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/libs/db';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2023-08-16',
+  apiVersion: '2024-06-20',
 });
 
 type RequestData = {
@@ -73,13 +73,13 @@ export async function POST(req: Request, res: Response) {
         },
       ],
       payment_method_types: ['card'],
-      success_url: `${origin}/users/${userId}`,
+      success_url: `${origin}/user`,
       metadata: {
         adults,
-        checkinDate: formattedCheckinDate,
-        checkoutDate: formattedCheckoutDate,
+        checkinDate: checkinDate,
+        checkoutDate: checkoutDate,
         children,
-        hotelRoom: room._id,
+        hotelRoom: room.id,
         numberOfDays,
         user: userId,
         discount: room.discount,

@@ -2,7 +2,7 @@
 import Chart from '@/components/Chart/Chart';
 import RatingModal from '@/components/RatingModal/RatingModal';
 import Table from '@/components/Table';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BsJournalBookmarkFill } from 'react-icons/bs';
 import { GiMoneyStack } from 'react-icons/gi';
 import toast from 'react-hot-toast';
@@ -13,7 +13,7 @@ type NavType = 'bookings' | 'amount' | 'ratings';
 const RightPabel = () => {
   const [currentNav, setCurrentNav] = useState<NavType>('bookings');
 
-  const [roomId, setRoomId] = useState<string | null>(null);
+  const [bookingId, setBookingId] = useState<string | null>(null);
 
   const [isRatingVisible, setIsRatingVisible] = useState(false);
 
@@ -23,20 +23,65 @@ const RightPabel = () => {
 
   const [ratingText, setRatingText] = useState('');
 
+  const [userBookings, setUserBookings] = useState<any>([]);
+
+  const [bookingLoading, setBookingLoading] = useState(false);
+
   const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
 
-  const userBookings: any = [];
+  useEffect(() => {
+    if (!isRatingVisible) {
+      setRatingValue(0);
+      setRatingText('');
+      setIsSubmittingReview(false);
+    }
+  }, [isRatingVisible]);
+
+  const fetchUserBookings = async () => {
+    try {
+      setBookingLoading(true);
+      const result = await fetch('/api/users/bookings');
+      const data = await result.json();
+      setUserBookings(data);
+    } catch {
+      // do nothing
+    } finally {
+      setBookingLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchUserBookings();
+  }, []);
 
   const reviewSubmitHandler = async() => {
     if (!ratingText.trim().length || !ratingValue) {
       return toast.error('Please provide a rating text and a rating');
     }
 
-    if (!roomId) {
+    if (!bookingId) {
       return toast.error('Id not provided');
     }
 
     setIsSubmittingReview(true);
+
+    try {
+      await fetch('/api/users/bookings/ratings', {
+        method: 'POST',
+        body: JSON.stringify({
+          bookingId,
+          rating: ratingValue,
+          text: ratingText
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      setIsRatingVisible(false);
+      toast.success('Review submitted successfully');
+    } catch (error) {
+      toast.error('Error submitting review');
+    }
   };
 
   return (
@@ -78,7 +123,7 @@ const RightPabel = () => {
         currentNav === 'bookings' ? (
           <Table
             bookingDetails={userBookings}
-            setRoomId={setRoomId}
+            setBookingId={setBookingId}
             toggleRatingModal={toggleRatingModal}
           />
         ) : null

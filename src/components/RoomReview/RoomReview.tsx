@@ -1,35 +1,17 @@
-import axios from 'axios';
-import { FC } from 'react';
-import useSWR from 'swr';
-
+import { FC, useEffect, useState } from 'react';
 import { Review } from '@/models/review';
 import Rating from '../Rating/Rating';
+import toast from 'react-hot-toast';
 
-const RoomReview: FC<{ roomId: string }> = ({ roomId }) => {
-  const fetchRoomReviews = async () => {
-    const { data } = await axios.get<Review[]>(`/api/room-reviews/${roomId}`);
-    return data;
-  };
-
-  const {
-    data: roomReviews,
-    error,
-    isLoading,
-  } = useSWR('/api/room-reviews', fetchRoomReviews);
-
-  if (error) throw new Error('Cannot fetch data');
-  if (typeof roomReviews === 'undefined' && !isLoading)
-    throw new Error('Cannot fetch data');
-
-  console.log(roomReviews);
+const RoomReview: FC<{ reviews: Review[] }> = ({ reviews }) => {
 
   return (
     <>
-      {roomReviews &&
-        roomReviews.map(review => (
+      {reviews &&
+        reviews.map(review => (
           <div
             className='bg-gray-100 dark:bg-gray-900 p-4 rounded-lg'
-            key={review._id}
+            key={review.id}
           >
             <div className='font-semibold mb-2 flex'>
               <p>{review.user.name}</p>

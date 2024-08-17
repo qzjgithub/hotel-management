@@ -1,5 +1,5 @@
 export type Booking = {
-  _id: string;
+  id: string;
   hotelRoom: {
     _id: string;
     name: string;

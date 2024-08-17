@@ -69,7 +69,7 @@ export const authOptions: NextAuthOptions = {
           }
         });
         if (u) {
-          return {...token, picture: u.image, isAdmin: u.isAdmin};
+          return {...token, picture: u.image, id: u.id, isAdmin: u.isAdmin};
         }
       }
       return token;

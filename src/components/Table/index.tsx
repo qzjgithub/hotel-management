@@ -4,14 +4,15 @@ import { Dispatch, FC, SetStateAction } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Booking } from '@/models/booking';
+import dayjs from 'dayjs';
 
 type Props = {
   bookingDetails: Booking[];
-  setRoomId: Dispatch<SetStateAction<string | null>>;
+  setBookingId: Dispatch<SetStateAction<string | null>>;
   toggleRatingModal: () => void;
 };
 
-const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
+const Table: FC<Props> = ({ bookingDetails, setBookingId, toggleRatingModal }) => {
   const router = useRouter();
 
   const generateMainContent = () => {
@@ -23,37 +24,43 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
       );
     }
 
-    return bookingDetails.map(booking => (
-      <tr
-        key={booking._id}
-        className='bg-white border-b hover:bg-gray-50'
-      >
-        <th
-          onClick={() =>
-            router.push(`/rooms/${booking.hotelRoom.slug.current}`)
-          }
-          className='px-6 underline text-blue-600 cursor-pointer py-4 font-medium whitespace-nowrap'
+    return bookingDetails.map(booking => {
+      const startDate = dayjs(booking.checkinDate).format('DD MMM, YYYY');
+      return (
+        <tr
+          key={booking.id}
+          className='bg-white border-b hover:bg-gray-50'
         >
-          {booking.hotelRoom.name}
-        </th>
-        <td className='px-6 py-4'>{booking.hotelRoom.price}</td>
-        <td className='px-6 py-4'>{booking.totalPrice}</td>
-        <td className='px-6 py-4'>{booking.discount}</td>
-        <td className='px-6 py-4'>{booking.numberOfDays}</td>
-        <td className='px-6 py-4'>0</td>
-        <td className='px-6 py-4'>
-          <button
+          <th
             onClick={() => {
-              setRoomId(booking.hotelRoom._id);
-              toggleRatingModal()
-            }}
-            className='font-medium text-blue-600 hover:underline'
+              if (booking.hotelRoom) {
+                router.push(`/rooms/${booking.hotelRoom.slug}`);
+              }
+            }
+            }
+            className='px-6 underline text-blue-600 cursor-pointer py-4 font-medium whitespace-nowrap'
           >
-            Rate
-          </button>
-        </td>
-      </tr>
-    ));
+            {booking.id}
+          </th>
+          <td className='px-6 py-4'>Hotel</td>
+          <td className='px-6 py-4'>Booked</td>
+          <td className='px-6 py-4'>{booking.totalPrice}</td>
+          <td className='px-6 py-4'>{startDate}</td>
+          {/* <td className='px-6 py-4'>0</td> */}
+          <td className='px-6 py-4'>
+            <button
+              onClick={() => {
+                setBookingId(booking.id);
+                toggleRatingModal()
+              }}
+              className='font-medium text-blue-600 hover:underline'
+            >
+              Rate
+            </button>
+          </td>
+        </tr>
+      );
+    });
   };
 
   return (
@@ -61,12 +68,12 @@ const Table: FC<Props> = ({ bookingDetails, setRoomId, toggleRatingModal }) => {
       <table className='w-full text-sm text-left text-gray-500'>
         <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
           <tr>
-            <th className='px-6 py-3'>Room name</th>
-            <th className='px-6 py-3'>Unit Price</th>
+            <th className='px-6 py-3'>Order ID</th>
+            <th className='px-6 py-3'>Type</th>
+            <th className='px-6 py-3'>Status</th>
             <th className='px-6 py-3'>Price</th>
-            <th className='px-6 py-3'>Discount</th>
-            <th className='px-6 py-3'>No. Days Booked</th>
-            <th className='px-6 py-3'>Days Left</th>
+            <th className='px-6 py-3'>Start Date</th>
+            {/* <th className='px-6 py-3'>Pay</th> */}
             <th className='px-6 py-3'></th>
           </tr>
         </thead>

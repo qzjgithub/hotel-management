@@ -12,6 +12,34 @@ type Props = {
   toggleRatingModal: () => void;
 };
 
+type RatingPickerProps = {
+  options: number[];
+  onClick: (value: number) => void;
+  value: number | null;
+};
+
+const RatingPicker = ({options, onClick, value}: RatingPickerProps) => {
+  return (
+    <div className='flex items-center'>
+      {
+        (options || []).map((item) => {
+          return (
+            <button
+              key={item}
+              onClick={() => onClick(item)}
+              className={`w-6 h-6 ${
+                (value || 0) >= item ? 'text-yellow-500' : 'text-gray-300'
+              }`}
+            >
+              <BsStarFill />
+            </button>
+          );
+        })
+      }
+    </div>
+  );
+};
+
 const RatingModal: FC<Props> = props => {
   const {
     isOpen,
@@ -42,19 +70,11 @@ const RatingModal: FC<Props> = props => {
           <label className='block text-sm font-medium text-gray-700'>
             Rating
           </label>
-          <div className='flex items-center'>
-            {starValues.map(value => (
-              <button
-                className={`w-6 h-6 ${
-                  ratingValue === value ? 'text-yellow-500' : 'text-gray-300'
-                }`}
-                onClick={() => setRatingValue(value)}
-                key={value}
-              >
-                <BsStarFill />
-              </button>
-            ))}
-          </div>
+          <RatingPicker
+            options={starValues}
+            value={ratingValue}
+            onClick={setRatingValue}
+          />
         </div>
 
         <div className='mb-4'>

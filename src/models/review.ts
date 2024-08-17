@@ -16,5 +16,5 @@ export type Review = {
   user: { name: string };
   userRating: number;
   _createdAt: Date;
-  _id: string;
+  id: string;
 };
