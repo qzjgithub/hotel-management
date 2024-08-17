@@ -1,10 +1,10 @@
-type Amenity = {
+type TimeSlot = {
   _key: string;
-  amenity: string;
-  icon: string;
+  startTime: string;
+  endTime: string;
 };
 
-export type Room = {
+export type Sights = {
   id: string;
   coverImage: string;
   description: string;
@@ -14,23 +14,23 @@ export type Room = {
   isBooked: boolean;
   isFeatured: boolean;
   name: string;
-  numberOfBeds: number;
-  offeredAmenities: Amenity[];
+  duration: number;
+  timeSlots: TimeSlot[];
   price: number;
   slug: string;
+  ticketNotice: string;
   specialNote: string;
-  type: string;
+  subtopics: string[];
   bookings: any[];
 };
 
 export type CreateBookingDto = {
   user: string;
-  hotelRoom: string;
+  sights: string;
   checkinDate: string;
-  checkoutDate: string;
-  numberOfDays: number;
   adults: number;
   children: number;
   totalPrice: number;
+  timeSlot: TimeSlot;
   discount: number;
 };

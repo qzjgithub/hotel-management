@@ -1,4 +1,4 @@
-import { IsString, IsDefined, IsBoolean, IsOptional, IsDate, IsEmail, MinLength, MaxLength } from "class-validator";
+import { IsString, IsDefined, IsBoolean, IsOptional, IsDate } from "class-validator";
 import { Review, Booking } from "./";
 
 export class User {
@@ -12,8 +12,6 @@ export class User {
 
     @IsDefined()
     @IsString()
-    @MinLength(4)
-    @MaxLength(64)
     name!: string;
 
     @IsOptional()
@@ -22,14 +20,11 @@ export class User {
 
     @IsDefined()
     @IsString()
-    @MinLength(6)
-    @MaxLength(64)
     password!: string;
 
-    @IsOptional()
+    @IsDefined()
     @IsString()
-    @IsEmail({}, {message: 'The email format is incorrect'})
-    email?: string;
+    email!: string;
 
     @IsOptional()
     @IsDate()

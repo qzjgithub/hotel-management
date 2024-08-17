@@ -38,21 +38,34 @@ export async function POST(req: Request, res: Response) {
           user,
           discount,
           totalPrice,
+          sights,
+          timeSlot
         },
       } = session as any;
+      const data: any = {
+        adults: Number(adults),
+        checkinDate,
+        children: Number(children),
+        discount: Number(discount),
+        totalPrice: Number(totalPrice),
+        userId: user
+      };
+      if (hotelRoom) {
+        data.checkoutDate = checkoutDate;
+        data.hotelRoomId = hotelRoom;
+        data.numberOfDays = Number(numberOfDays);
+      } else if (sights) {
+        data.checkoutDate = checkinDate;
+        data.sightsId = sights;
+        try {
+          data.timeSlot = JSON.parse(timeSlot);
+        } catch {
+          data.timeSlot = {};
+        }
+      }
 
       await db.booking.create({
-        data: {
-          adults: Number(adults),
-          checkinDate,
-          checkoutDate,
-          children: Number(children),
-          hotelRoomId: hotelRoom,
-          numberOfDays: Number(numberOfDays),
-          discount: Number(discount),
-          totalPrice: Number(totalPrice),
-          userId: user
-        }
+        data
       });
 
       return NextResponse.json('Booking successful', {

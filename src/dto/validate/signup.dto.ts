@@ -2,7 +2,7 @@ import { IsString, IsDefined, IsOptional, IsEmail, MinLength, MaxLength, IsNumbe
 import { User } from "@/dto/models";
 import { Expose } from "class-transformer";
 
-export class SignupDto implements Pick<User, 'email' | 'name' | 'password'> {
+export class SignupDto {
   @IsDefined()
   @IsString()
   @MinLength(4)

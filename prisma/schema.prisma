@@ -170,9 +170,9 @@ model Booking {
 
 
 type TimeSlot {
-  /// Start Time
+  /// Start Time eg: 08:00
   startTime String
-  /// End Time
+  /// End Time eg: 12:00
   endTime String
 }
 

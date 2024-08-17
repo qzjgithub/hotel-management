@@ -1,12 +1,10 @@
-import { IsString, IsDefined, IsOptional, IsIn, IsInt, IsBoolean, MinLength, MaxLength, IsNegative, IsNumber, IsPositive, Min, Max, IsArray } from "class-validator";
-import { HotelRoom } from "@/dto/models";
+import { IsString, IsDefined, IsOptional, IsIn, IsInt, IsBoolean, MinLength, IsNumber, IsPositive, Min, Max, IsArray } from "class-validator";
 import { getEnumValues } from "@/dto/helpers";
 import { RoomType } from "@/dto/enums";
-import { OfferedAmenities } from "@/dto/validate/offeredAmenities";
 import { Type } from "class-transformer";
+import { OfferedAmenities } from "./offered-amenities";
 
-export class CreateHotelRoomDto implements Omit<HotelRoom,
-  'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'reviews' | 'bookings'> {
+export class CreateHotelRoomDto {
     @IsDefined()
     @IsString()
     @MinLength(1)

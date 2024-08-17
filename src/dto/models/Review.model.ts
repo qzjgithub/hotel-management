@@ -1,5 +1,5 @@
-import { IsString, IsDefined, IsInt, IsDate, IsOptional } from "class-validator";
-import { User, HotelRoom } from "./";
+import { IsString, IsDefined, IsInt, IsOptional, IsDate } from "class-validator";
+import { User, HotelRoom, Sights } from "./";
 
 export class Review {
     @IsDefined()
@@ -21,12 +21,19 @@ export class Review {
     @IsDefined()
     user!: User;
 
-    @IsDefined()
+    @IsOptional()
     @IsString()
-    hotelRoomId!: string;
+    hotelRoomId?: string;
 
-    @IsDefined()
-    hotelRoom!: HotelRoom;
+    @IsOptional()
+    hotelRoom?: HotelRoom;
+
+    @IsOptional()
+    @IsString()
+    sightsId?: string;
+
+    @IsOptional()
+    sights?: Sights;
 
     @IsDefined()
     @IsDate()

@@ -9,31 +9,33 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2024-06-20',
 });
 
+type TimeSlot = {
+  startTime: Date;
+  endTime: Date;
+}
+
 type RequestData = {
   checkinDate: string;
-  checkoutDate: string;
   adults: number;
   children: number;
-  numberOfDays: number;
-  hotelRoomSlug: string;
+  sightsSlug: string;
+  timeSlot: TimeSlot;
 };
 
 export async function POST(req: Request, res: Response) {
   const {
     checkinDate,
     adults,
-    checkoutDate,
     children,
-    hotelRoomSlug,
-    numberOfDays,
+    sightsSlug,
+    timeSlot
   }: RequestData = await req.json();
 
   if (
     !checkinDate ||
-    !checkoutDate ||
     !adults ||
-    !hotelRoomSlug ||
-    !numberOfDays
+    !sightsSlug ||
+    !timeSlot
   ) {
     return new NextResponse('Please all fields are required', { status: 400 });
   }
@@ -47,14 +49,12 @@ export async function POST(req: Request, res: Response) {
   }
 
   const userId = session.user.id;
-  const formattedCheckoutDate = checkoutDate.split('T')[0];
-  const formattedCheckinDate = checkinDate.split('T')[0];
 
   try {
-    const room = await db.hotelRoom.findFirst({where: {slug: hotelRoomSlug}});
-    if (!room) return;
-    const discountPrice = room.price - (room.price / 100) * (room.discount || 1);
-    const totalPrice = discountPrice * numberOfDays;
+    const sights = await db.sights.findFirst({where: {slug: sightsSlug}});
+    if (!sights) return;
+    const discountPrice = sights.price - (sights.price / 100) * (sights.discount ?? 1);
+    const totalPrice = discountPrice * adults + (sights.childPrice ?? 0) * children;
 
     // Create a stripe payment
     const stripeSession = await stripe.checkout.sessions.create({
@@ -65,8 +65,8 @@ export async function POST(req: Request, res: Response) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: room.name,
-              images: room.images,
+              name: sights.name,
+              images: sights.images,
             },
             unit_amount: parseInt((totalPrice * 100).toString()),
           },
@@ -77,13 +77,13 @@ export async function POST(req: Request, res: Response) {
       metadata: {
         adults,
         checkinDate: checkinDate,
-        checkoutDate: checkoutDate,
+        checkoutDate: checkinDate,
         children,
-        hotelRoom: room.id,
-        numberOfDays,
+        sights: sights.id,
         user: userId,
-        discount: room.discount,
-        totalPrice
+        discount: sights.discount,
+        totalPrice,
+        timeSlot: JSON.stringify(timeSlot)
       }
     });
 

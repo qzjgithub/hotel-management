@@ -1,10 +1,8 @@
-import { IsString, IsDefined, IsOptional, IsIn, IsInt, IsBoolean, IsDate } from "class-validator";
+import { IsString, IsDefined, IsOptional, IsInt, IsDate } from "class-validator";
 import { Review, Booking } from "./";
-import { getEnumValues } from "../helpers";
-import { RoomType } from "../enums";
-import { OfferedAmenities } from "../validate/offered-amenities";
+import { TimeSlot } from "../validate/time-slot";
 
-export class HotelRoom {
+export class Sights {
     @IsDefined()
     @IsString()
     id!: string;
@@ -26,7 +24,14 @@ export class HotelRoom {
     description?: string;
 
     @IsDefined()
+    @IsInt()
+    duration!: number;
+
+    @IsDefined()
     price!: number;
+
+    @IsOptional()
+    childPrice?: number;
 
     @IsOptional()
     discount?: number;
@@ -40,27 +45,19 @@ export class HotelRoom {
     coverImage!: string;
 
     @IsDefined()
-    @IsIn(getEnumValues(RoomType))
-    type!: RoomType;
+    @IsString()
+    ticketNotice!: string;
 
     @IsDefined()
     @IsString()
     specialNote!: string;
 
-    @IsOptional()
+    @IsDefined()
     @IsString()
-    dimension?: string;
+    subtopics!: string[];
 
     @IsDefined()
-    @IsInt()
-    numberOfBeds!: number;
-
-    @IsDefined()
-    offeredAmenities!: OfferedAmenities[];
-
-    @IsDefined()
-    @IsBoolean()
-    isFeatured!: boolean;
+    timeSlots!: TimeSlot[];
 
     @IsDefined()
     reviews!: Review[];
