@@ -91,13 +91,12 @@ const UserDetail = () => {
                 <p className='mr-2'>Sign out</p>
                 <FaSignOutAlt
                   className='text-3xl cursor-pointer'
-                  // onClick={() => signOut({ callbackUrl: '/' })}
+                  onClick={() => signOut({ callbackUrl: '/' })}
                 />
               </div>
             </div>
           </div>
           <RightPabel />
-          
         </div>
       </div>
     </div>

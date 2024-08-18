@@ -22,7 +22,15 @@ export async function GET() {
         hotelRoom: {
           select: {
             id: true,
-            slug: true
+            slug: true,
+            name: true
+          }
+        },
+        sights: {
+          select: {
+            id: true,
+            slug: true,
+            name: true
           }
         }
       },

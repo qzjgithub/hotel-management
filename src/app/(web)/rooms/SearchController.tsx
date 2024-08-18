@@ -40,7 +40,7 @@ export const SearchController = ({place, checkinDate, onSearch}: SearchControlle
         element={
           <input
             placeholder="Where"
-            className="w-32"
+            className="w-36"
             onChange={e => setSearchParam({...searchParam, place: e.target.value})}
           />
         }
@@ -57,7 +57,7 @@ export const SearchController = ({place, checkinDate, onSearch}: SearchControlle
             minDate={new Date()}
             maxDate={searchParam.checkoutDate || undefined}
             id='check-in-date'
-            className='w-32'
+            className='w-36'
           />
         }
       />
@@ -72,7 +72,7 @@ export const SearchController = ({place, checkinDate, onSearch}: SearchControlle
             onChange={(d: Date | null) => setSearchParam({...searchParam, checkoutDate: d || undefined})}
             minDate={searchParam.checkinDate || new Date()}
             id='check-out-date'
-            className='w-32'
+            className='w-36'
           />
         }
       />
@@ -81,7 +81,7 @@ export const SearchController = ({place, checkinDate, onSearch}: SearchControlle
         icon={null}
         element={
           <Dropdown
-            className='w-32'
+            className='w-36'
             panelClassName='-left-[0.65rem] top-[2.05rem]'
             placeholder={'Room & Guest'}
             options={[
@@ -100,7 +100,7 @@ export const SearchController = ({place, checkinDate, onSearch}: SearchControlle
         element={
           <input
             placeholder="hotel name"
-            className="w-32"
+            className="w-36"
             onChange={e => setSearchParam({...searchParam, name: e.target.value})}
           />
         }
