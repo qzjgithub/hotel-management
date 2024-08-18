@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "coverImage": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHJvb218ZW58MHx8MHx8fDA%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+    "discount": 8,
+    "images": [
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1564078516393-cf04bd966897?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1589834390005-5d4fb9bf3d32?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60",
+      "https://images.unsplash.com/photo-1486304873000-235643847519?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHJvb218ZW58MHx8MHx8fDA%3D\u0026auto=format\u0026fit=crop\u0026w=800\u0026q=60"
+    ],
+    "price": 100,
+    "childPrice": 50,
+    "description": "The afterglow of the setting sun shines on the golden beach, the waves gently beat against the rocks, and the sky in the distance is dyed a fiery red, forming a tranquil and magnificent landscape painting.",
+    "name": "Place 1",
+    "place": "Center Point",
+    "slug": "place-1",
+    "duration": 4,
+    "ticketNotice": "Please read the ticket purchase instructions carefully to understand the performance time, location, ticket price, ticket refund and exchange policy and other information, and keep your electronic ticket or paper ticket properly for smooth admission.",
+    "specialNote": "Please note that this activity is only open to people over 18 years old. Please consciously abide by relevant laws and regulations, watch in a civilized manner, and jointly maintain good viewing order.",
+    "subtopics": ["roller coasters", "carousels", "water parks"],
+    "timeSlots": [
+      {"startTime": "08:00", "endTime": "12:00"},
+      {"startTime": "14:00", "endTime": "18:00"}
+    ]
+  }
+]
