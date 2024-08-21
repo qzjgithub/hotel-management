@@ -1,10 +1,13 @@
 import { db } from "@/libs/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { plainToInstance } from 'class-transformer';
 import { Prisma } from "@prisma/client";
 import { SearchSightsDto } from "@/dto/validate/search-sights.dto";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const pageSize = Number(searchParams.get('pageSize')) || 10;
+  const pageNum = Number(searchParams.get('pageNum')) || 1;
   try {
     const data = await request.json();
     const dto = plainToInstance(SearchSightsDto, data);
@@ -19,12 +22,15 @@ export async function POST(request: Request) {
     if (name) {
       where.name = {contains: name};
     }
+    const total = await db.sights.count({where});
     const sights = await db.sights.findMany({
-      where
+      where,
+      take: pageSize,
+      skip: (pageNum - 1) * pageSize
     });
     return NextResponse.json({
       success: true,
-      data: sights
+      data: {total, data: sights}
     });
   } catch(e: any) {
     return NextResponse.json({
