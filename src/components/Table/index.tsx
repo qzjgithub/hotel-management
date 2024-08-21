@@ -31,23 +31,33 @@ const Table: FC<Props> = ({ bookingDetails, setBookingId, toggleRatingModal }) =
           key={booking.id}
           className='bg-white border-b hover:bg-gray-50'
         >
+          <td className='px-4 py-4'>
+            {
+              booking?.hotelRoom?.name || booking?.sights?.name || ''
+            }
+          </td>
           <th
             onClick={() => {
               if (booking.hotelRoom) {
                 router.push(`/rooms/${booking.hotelRoom.slug}`);
+              } else if (booking.sights) {
+                router.push(`/places/${booking.sights.slug}`);
               }
             }
             }
-            className='px-6 underline text-blue-600 cursor-pointer py-4 font-medium whitespace-nowrap'
+            className='px-4 underline text-blue-600 cursor-pointer py-4 font-medium whitespace-nowrap'
           >
             {booking.id}
           </th>
-          <td className='px-6 py-4'>Hotel</td>
-          <td className='px-6 py-4'>Booked</td>
-          <td className='px-6 py-4'>{booking.totalPrice}</td>
-          <td className='px-6 py-4'>{startDate}</td>
-          {/* <td className='px-6 py-4'>0</td> */}
-          <td className='px-6 py-4'>
+          <td className='px-4 py-4'>
+            {
+              booking.hotelRoom ? 'Hotel' : 'Sights'
+            }
+          </td>
+          <td className='px-4 py-4'>Booked</td>
+          <td className='px-4 py-4'>{booking.totalPrice}</td>
+          <td className='px-4 py-4'>{startDate}</td>
+          <td className='px-4 py-4'>
             <button
               onClick={() => {
                 setBookingId(booking.id);
@@ -68,13 +78,13 @@ const Table: FC<Props> = ({ bookingDetails, setBookingId, toggleRatingModal }) =
       <table className='w-full text-sm text-left text-gray-500'>
         <thead className='text-xs text-gray-700 uppercase bg-gray-50'>
           <tr>
-            <th className='px-6 py-3'>Order ID</th>
-            <th className='px-6 py-3'>Type</th>
-            <th className='px-6 py-3'>Status</th>
-            <th className='px-6 py-3'>Price</th>
-            <th className='px-6 py-3'>Start Date</th>
-            {/* <th className='px-6 py-3'>Pay</th> */}
-            <th className='px-6 py-3'></th>
+            <th className='px-4 py-3'>Name</th>
+            <th className='px-4 py-3'>Order ID</th>
+            <th className='px-4 py-3'>Type</th>
+            <th className='px-4 py-3'>Status</th>
+            <th className='px-4 py-3'>Price</th>
+            <th className='px-4 py-3'>Start Date</th>
+            <th className='px-4 py-3'></th>
           </tr>
         </thead>
         <tbody>

@@ -6,6 +6,9 @@ import { signOut } from 'next-auth/react';
 import RightPabel from './RightPanel';
 import { User } from '@/models/user';
 import LoadingSpinner from '../loading';
+import PasswordEdit from './PasswordEdit';
+import Button from '@/components/Button';
+import Link from 'next/link';
 
 const UserDetail = () => {
   const [userData, setUserData] = useState<User>({} as User);
@@ -55,20 +58,32 @@ const UserDetail = () => {
             <h6 className='text-sm font-bold pb-3'>About: </h6>
             <p className='text-sm'>{userData.about ?? '--'}</p>
           </div>
-          <div className='flex items-center'>
-            <p className='mr-2'>Sign Out</p>
-            <span
+          <Link
+            href='/user/modify-password'
+          >
+            <PasswordEdit />
+          </Link>
+          <div
+            className='mt-2 flex'
+          >
+            <Button
               onClick={() => signOut({ callbackUrl: '/' })}
             >
+              <p className='mr-2'>Sign out</p>
               <FaSignOutAlt
-                className='text-3xl cursor-pointer'
+                className='text-xl cursor-pointer'
               />
-            </span>
+            </Button>
           </div>
         </div>
         <div className='md:col-span-8 lg:col-span-9'>
-          <div className='flex items-center'>
+          <div className='flex items-center justify-between'>
             <h5 className='text-2xl font-bold mr-3'>Hello, {userData.name}</h5>
+            <Link
+              href='/user/modify-password'
+            >
+              <PasswordEdit />
+            </Link>
           </div>
           <div className='flex items-center gap-3 justify-evenly md:justify-start'>
             <div className='md:hidden w-14 h-14 rounded-l-full overflow-hidden'>
@@ -88,16 +103,18 @@ const UserDetail = () => {
                 Joined In {userData.createdAt?.split('T')[0]}
               </p>
               <div className='md:hidden flex items-center my-2'>
-                <p className='mr-2'>Sign out</p>
-                <FaSignOutAlt
-                  className='text-3xl cursor-pointer'
-                  // onClick={() => signOut({ callbackUrl: '/' })}
-                />
+                <Button
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                >
+                  <p className='mr-2'>Sign out</p>
+                  <FaSignOutAlt
+                    className='text-3xl cursor-pointer'
+                  />
+                </Button>
               </div>
             </div>
           </div>
           <RightPabel />
-          
         </div>
       </div>
     </div>

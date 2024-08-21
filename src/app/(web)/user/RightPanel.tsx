@@ -132,7 +132,7 @@ const RightPabel = () => {
       {
         currentNav === 'amount' ? (
           <Chart
-            userBookings={[]}
+            userBookings={userBookings}
           />
         ) : null
       }

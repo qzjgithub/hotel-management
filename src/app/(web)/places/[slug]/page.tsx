@@ -5,7 +5,7 @@ import { MdOutlineCleaningServices } from 'react-icons/md';
 import { LiaFireExtinguisherSolid } from 'react-icons/lia';
 import { AiOutlineMedicineBox } from 'react-icons/ai';
 import { GiSmokeBomb } from 'react-icons/gi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import LoadingSpinner from '../../loading';
@@ -32,6 +32,12 @@ const RoomDetails = (props: { params: { slug: string } }) => {
   };
 
   const { data: sights, error, isLoading }: any = useSWR('/api/places/detail', fetchRoom);
+
+  useEffect(() => {
+    if (sights && sights.timeSlots) {
+      setTimeSlot(JSON.stringify(sights.timeSlots[0]));
+    }
+  }, [sights]);
 
   if (error) throw new Error('Cannot fetch data');
   if (typeof sights === 'undefined' && !isLoading)
