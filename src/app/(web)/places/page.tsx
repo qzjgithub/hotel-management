@@ -11,7 +11,7 @@ const RoomMainPage = () => {
   const [sights, setSights] = useState([]);
   const [total, setTotal] = useState(0);
   const [controlParam, setControlParam] = useState<SearchParamType>({});
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(6);
   const [pageNum, setPageNum] = useState(1);
 
   const fetchSightsData = useCallback(async (params: SearchParamType = controlParam, pagination: any = {pageSize, pageNum}) => {
