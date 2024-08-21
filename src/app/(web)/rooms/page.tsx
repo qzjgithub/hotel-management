@@ -16,7 +16,7 @@ const RoomMainPage = () => {
   const [rooms, setRooms] = useState([]);
   const [total, setTotal] = useState(0);
   const [controlParam, setControlParam] = useState<SearchParamType>({place, checkinDate: checkinDate ? (new Date(checkinDate)) : null});
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(10);
   const [pageNum, setPageNum] = useState(1);
 
   const fetchRoomsData = useCallback(async (params: SearchParamType = controlParam, pagination: any = {pageSize, pageNum}) => {
