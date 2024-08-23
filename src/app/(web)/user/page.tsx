@@ -9,11 +9,17 @@ import LoadingSpinner from '../loading';
 import PasswordEdit from './PasswordEdit';
 import Button from '@/components/Button';
 import Link from 'next/link';
+import InfoEditModal from '@/components/UserInfoModal/InfoEditModal';
+import BackDrop from '@/components/BackDrop/BackDrop';
+import { BiSolidEdit } from 'react-icons/bi';
+import toast from 'react-hot-toast';
 
 const UserDetail = () => {
   const [userData, setUserData] = useState<User>({} as User);
 
   const [loading, setLoading] = useState(true);
+
+  const [infoModalVisible, setInfoModalVisible] = useState(false);
 
   const fetchUserDetail = async () => {
     try {
@@ -27,6 +33,18 @@ const UserDetail = () => {
       setLoading(false);
     }
   }
+
+  const confirmUserInfo = async (text: string) => {
+    const res = await fetch('/api/users', {
+      method: 'PUT',
+      body: JSON.stringify({ about: text }),
+    });
+    const json = await res.json();
+    if (json.success) {
+      toast.success('Updated successfully');
+      setUserData((prev) => ({ ...prev, about: text }));
+    }
+  };
 
   useEffect(() => {
     fetchUserDetail();
@@ -55,8 +73,16 @@ const UserDetail = () => {
             <h6 className='text-xl font-bold pb-3'>{userData.name}</h6>
           </div>
           <div className='font-normal py-4 text-left'>
-            <h6 className='text-sm font-bold pb-3'>About: </h6>
-            <p className='text-sm'>{userData.about ?? '--'}</p>
+            <h6 className='text-sm font-bold pb-3 flex items-center gap-2'>
+              <span>About: </span>
+              <InfoEditBtn onClick={() => setInfoModalVisible(true)} />
+            </h6>
+            <p
+              className='text-sm overflow-hidden text-nowrap text-ellipsis'
+              title={userData.about ?? ''}
+            >
+                {userData.about ?? '--'}
+            </p>
           </div>
           <Link
             href='/user/modify-password'
@@ -77,10 +103,11 @@ const UserDetail = () => {
           </div>
         </div>
         <div className='md:col-span-8 lg:col-span-9'>
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between mb-1'>
             <h5 className='text-2xl font-bold mr-3'>Hello, {userData.name}</h5>
             <Link
               href='/user/modify-password'
+              className='md:hidden'
             >
               <PasswordEdit />
             </Link>
@@ -96,8 +123,11 @@ const UserDetail = () => {
               />
             </div>
             <div>
-              <p className='block w-fit md:hidden text-sm py-2'>
-                About: {userData.about ?? '--'}
+              <p className='flex items-center gap-1 w-fit md:hidden text-sm py-2'>
+                <span>
+                  About: {userData.about ?? '--'}
+                </span>
+                <InfoEditBtn onClick={() => setInfoModalVisible(true)} />
               </p>
               <p className='text-xs py-2 font-medium'>
                 Joined In {userData.createdAt?.split('T')[0]}
@@ -117,8 +147,33 @@ const UserDetail = () => {
           <RightPabel />
         </div>
       </div>
+      <InfoEditModal
+        isOpen={infoModalVisible}
+        onClose={() => setInfoModalVisible(false)}
+        onOk={confirmUserInfo}
+        defaultText={userData.about ?? ''}
+      />
+      <BackDrop
+        isOpen={infoModalVisible}
+      />
     </div>
   )
 }
+
+type InfoEditModalProps = {
+  onClick: () => void;
+}
+
+const InfoEditBtn = ({onClick}: InfoEditModalProps) => {
+  return (
+    <div>
+      <Button
+        onClick={onClick}
+      >
+        <BiSolidEdit className='text-xl cursor-pointer'/>
+      </Button>
+    </div>
+  );
+};
 
 export default UserDetail
