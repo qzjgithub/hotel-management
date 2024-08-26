@@ -15,7 +15,11 @@ const Footer = () => {
           >
             Privacy & cookie statement
           </Link>
-          <p>Contact us</p>
+          <Link
+            href='/contact'
+          >
+            Contact us
+          </Link>
         </div>
       </div>
     </footer>

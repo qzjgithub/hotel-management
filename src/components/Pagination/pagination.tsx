@@ -35,7 +35,7 @@ export const Pagination = (props: PaginationProps) => {
 
   const pageSizeOptions = useMemo(() => {
     const options = [
-      {value: 6, label: '6 per page'},
+      {value: 8, label: '8 per page'},
       {value: 10, label: '10 per page'},
       {value: 15, label: '15 per page'}
     ];

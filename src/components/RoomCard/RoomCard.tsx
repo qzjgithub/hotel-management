@@ -18,7 +18,7 @@ const RoomCard: FC<Props> = props => {
   const isBooked = !!bookings.length;
 
   return (
-    <div className='rounded-xl w-72 mb-10 mx-auto md:mx-0 overflow-hidden text-black'>
+    <div className='rounded-xl w-72 mb-10 mx-4 overflow-hidden text-black'>
       <div className='h-60 overflow-hidden'>
         <Image
           src={coverImage}
@@ -37,7 +37,7 @@ const RoomCard: FC<Props> = props => {
 
         <p className='pt-2 text-xs'>{type} Room</p>
 
-        <p className='pt-3 pb-6'>{description.slice(1, 100)}...</p>
+        <p className='pt-3 pb-6 max-h-[60px] overflow-hidden mb-3 text-ellipsis line-clamp-2'>{description.slice(1, 100)}...</p>
 
         <Link
           href={`/rooms/${slug}`}

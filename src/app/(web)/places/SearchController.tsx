@@ -65,11 +65,11 @@ export const SearchController = ({onSearch}: SearchControllerProps) => {
         }
       />
       <SearchInput
-        label="HOTEL NAME"
+        label="PLACE NAME"
         icon={null}
         element={
           <input
-            placeholder="hotel name"
+            placeholder="place name"
             className="w-32"
             onChange={e => setSearchParam({...searchParam, name: e.target.value})}
           />

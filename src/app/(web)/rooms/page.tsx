@@ -16,7 +16,7 @@ const RoomMainPage = () => {
   const [rooms, setRooms] = useState([]);
   const [total, setTotal] = useState(0);
   const [controlParam, setControlParam] = useState<SearchParamType>({place, checkinDate: checkinDate ? (new Date(checkinDate)) : null});
-  const [pageSize, setPageSize] = useState(6);
+  const [pageSize, setPageSize] = useState(8);
   const [pageNum, setPageNum] = useState(1);
 
   const fetchRoomsData = useCallback(async (params: SearchParamType = controlParam, pagination: any = {pageSize, pageNum}) => {
@@ -41,23 +41,7 @@ const RoomMainPage = () => {
           fetchRoomsData(cp, {pageSize, pageNum: 1});
         }}
       />
-      <Pagination
-        total={total}
-        pageSize={pageSize}
-        pageNum={pageNum}
-        onChange={(n: number, s: number) => {
-          if (s !== pageSize) {
-            setPageSize(s);
-            setPageNum(1);
-            fetchRoomsData(undefined, {pageSize: s, pageNum: 1});
-          }
-          if (n !== pageNum) {
-            setPageNum(n);
-            fetchRoomsData(undefined, {pageSize: s, pageNum: n});
-          }
-        }}
-      />
-      <div className='flex mt-20 justify-between flex-wrap'>
+      <div className='flex mt-20 justify-start flex-wrap'>
         {rooms.map((room: Room) => (
           <RoomCard key={room.id} room={room} />
         ))}
