@@ -13,13 +13,12 @@ export async function POST(req: Request, res: Response) {
     url: process.env.GPT_URL,
     data: {
       messages: messages,
-      // model: 'gpt-3.5-turbo-16k',
-      // stream: true,
+      model: 'gpt-3.5-turbo-16k',
       user: session?.user.id
     },
     headers: {
       'Content-Type': 'application/json',
-      'api-key': process.env.GPT_KEY
+      'Authorization': `Bearer ${process.env.GPT_KEY}`
     },
     // responseType: 'stream'
   }
