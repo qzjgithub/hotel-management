@@ -15,6 +15,7 @@ import { getStripe } from '@/libs/stripe';
 import RoomReview from '@/components/RoomReview/RoomReview';
 import Toast from '@/components/Toast/Toast';
 import toast from 'react-hot-toast';
+import AIDialog from '@/components/AIDialog/AIDialog';
 
 const RoomDetails = (props: { params: { slug: string } }) => {
   const {
@@ -196,6 +197,12 @@ const RoomDetails = (props: { params: { slug: string } }) => {
           </div>
         </div>
       </div>
+      <AIDialog
+        title={room.name}
+        type='Room'
+        detail={`${room.name}\n${room.description}`}
+        item={room}
+      />
     </div>
   );
 };
